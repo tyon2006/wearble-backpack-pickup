@@ -33,7 +33,10 @@ public class eventHandler {
 		
         //get the item that triggered the event
 		ItemStack item = e.getItem().getItem();
-		System.out.println("player picked up item: " + item.getCount() + " " + item.getDisplayName());		
+		ItemStack packItem = item.copy();
+		System.out.println("player picked up item: " + item.getCount() + " " + item.getDisplayName());
+		
+		System.out.println("player inventory size is: " + playerInventory.size());
 
         //get the backpack
 		IBackpackData backpackdata = backpack.getData();
@@ -57,13 +60,15 @@ public class eventHandler {
 		//
 
 		//for each slot, attempt to insert
+		//5
 		while(packSize -1 > 0) {
 			packSize--;
-			item = contents.insertItem(packSize, item, false);
+			packItem = contents.insertItem(packSize, packItem, false);
 		}
+		//2 fit, 3 remaining
+		item.setCount(packItem.getCount());
 
 		System.out.println("does inventory contain item?: " + playerInventory.contains(item));
-;
 
 		//e.getEntityPlayer().inventory.clear(); //clear the inventory like a jerk
 
