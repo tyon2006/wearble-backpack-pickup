@@ -74,41 +74,7 @@ public class eventHandler {
 
         //loop until the item stack is empty or bag is full
         //put the rest in the main inventory if bag is full
-		
-		//didn't work as abackpack check
-		/* 
-		Entity entity = e.getEntity();
-		if (entity == null) return;
-		BackpackCapability backpack = (BackpackCapability)entity.getCapability(IBackpack.CAPABILITY, null);
-		if (backpack == null) return;
-		*/
-		
-		/*
-		switch (message._type) {
-			case STACK: backpack.stack = message._stack; break;
-			case OPEN: backpack.playersUsing = (message._open ? 1 : 0); break;
-			default: throw new RuntimeException("Invalid UpdateType");
-			*/
 
     }
-	
-	/*
-	 * 	public static class Handler extends BackpacksMessageHandler<MessageBackpackUpdate> {
-		@Override
-		@SideOnly(Side.CLIENT)
-		public void handle(MessageBackpackUpdate message, MessageContext ctx) {
-			Entity entity = getWorld(ctx).getEntityByID(message._entityId);
-			if (entity == null) return;
-			BackpackCapability backpack = (BackpackCapability)entity
-				.getCapability(IBackpack.CAPABILITY, null);
-			if (backpack == null) return;
-			switch (message._type) {
-				case STACK: backpack.stack = message._stack; break;
-				case OPEN: backpack.playersUsing = (message._open ? 1 : 0); break;
-				default: throw new RuntimeException("Invalid UpdateType");
-			}
-		}
-	}
-	 */
 	
 }
