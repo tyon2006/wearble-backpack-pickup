@@ -1,5 +1,6 @@
 package com.tyon2006.pickup.events;
 
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -14,10 +15,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 
 public class eventHandler {
 	
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.LOWEST)
 	@SideOnly(Side.CLIENT)
     public void pickupItem(EntityItemPickupEvent e) {
 		
@@ -27,12 +29,18 @@ public class eventHandler {
 		
         //get player's inventory
 		EntityPlayer player = e.getEntityPlayer();
-		NonNullList<ItemStack> playerInventory = e.getEntityPlayer().inventory.mainInventory;
+
+		//get the item
+		ItemStack item = e.getItem().getItem();
 		
+		//quit if either is null
+		if (item.isEmpty() || player == null) return;
+		
+		//get the player's inventory
+		NonNullList<ItemStack> playerInventory = e.getEntityPlayer().inventory.mainInventory;
 		ItemStack itemstack = backpack.getStack();
 		
-        //get the item that triggered the event
-		ItemStack item = e.getItem().getItem();
+		
 		ItemStack packItem = item.copy();
 		System.out.println("player picked up item: " + item.getCount() + " " + item.getDisplayName());
 		
@@ -57,19 +65,39 @@ public class eventHandler {
 		
 		System.out.println("contents: " + contents.serializeNBT().toString());
 		
-		//
+		//count items in backpack
+		int counterPack = packSize-1;
+		int packFill = 0;
+		while (counterPack > 0) {
+			if(contents.getStackInSlot(counterPack) != null) packFill++;
+			counterPack--;
+		}
+		
+		//count items in inventory
+		int counterInventory = playerInventory.size()-1;
+		int inventoryFill = 0;
+		while (counterInventory > 0) {
+			if(playerInventory.get(counterInventory) != null) inventoryFill++;
+			counterInventory--;
+		}
 
+		//cancel if inventory and backpack are full
+		if(inventoryFill >= playerInventory.size() 
+				&& packFill >= packSize) return;
 		//for each slot, attempt to insert
 		//5
-		while(packSize -1 > 0) {
+		while(packSize -1 >= 0) {
 			packSize--;
 			packItem = contents.insertItem(packSize, packItem, false);
 		}
 		//2 fit, 3 remaining
 		item.setCount(packItem.getCount());
+		
+		if (item.getCount() > 0) {
+			ItemStack drop = item.copy();
+		}
 
 		System.out.println("does inventory contain item?: " + playerInventory.contains(item));
-
 		//e.getEntityPlayer().inventory.clear(); //clear the inventory like a jerk
 
         //check if backpack is full

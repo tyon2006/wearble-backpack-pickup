@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "wbpickud",
+  "name": "Wearable Backpacks Pickup",
+  "description": "Automatically moves picked up items from your main inventory to your Wearable Backpack.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["tyon2006"],
+  "credits": "Thanks to the wearable backpacks team for the awesome mod and the CraftTweaker team for your endless support!",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
